@@ -2,13 +2,11 @@ import ProductData from "./ProductData.mjs";
 
 const dataSource = new ProductData("tents");
 
-// These are the IDs we want to show on the landing page
 const validProductIds = ["880RR", "985PR", "985RF", "989CG"];
 
 async function init() {
   const list = await dataSource.getData();
   
-  // FILTER: Only keep products that exist in our whitelist
   const filteredList = list.filter(item => validProductIds.includes(item.Id));
   
   renderProductList(filteredList);

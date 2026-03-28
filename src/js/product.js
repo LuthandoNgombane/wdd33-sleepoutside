@@ -10,7 +10,6 @@ async function init() {
     const product = await dataSource.findProductById(productId);
     if (product) {
       renderProductDetails(product);
-      // Attach listener ONLY after product is found
       document.getElementById("addToCart").addEventListener("click", () => {
         addProductToCart(product);
       });
@@ -21,7 +20,10 @@ async function init() {
 function renderProductDetails(product) {
   document.getElementById("productBrandName").innerText = product.Brand.Name;
   document.getElementById("productName").innerText = product.NameWithoutBrand;
-  // Ensure image path is relative to the product_pages folder
+
+  const cleanPath = product.Image.replace("../", "/"); 
+  document.getElementById("productImage").src = cleanPath;
+
   document.getElementById("productImage").src = product.Image; 
   document.getElementById("productImage").alt = product.Name;
   document.getElementById("productFinalPrice").innerText = `$${product.FinalPrice}`;
@@ -31,7 +33,7 @@ function renderProductDetails(product) {
 
 function addProductToCart(product) {
   let cartItems = getLocalStorage("so-cart") || [];
-  if (!Array.isArray(cartItems)) cartItems = []; // Safety check
+  if (!Array.isArray(cartItems)) cartItems = []; 
   cartItems.push(product);
   setLocalStorage("so-cart", cartItems);
 }
