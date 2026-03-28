@@ -42,7 +42,8 @@ function addProductToCart(product) {
 
     existingItem.Quantity = (existingItem.Quantity || 1) + 1;
   }
-  else {
+  else 
+{
 
     product.Quantity = 1;
     cartItems.push(product);
