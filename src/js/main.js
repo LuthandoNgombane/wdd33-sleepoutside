@@ -18,13 +18,31 @@ function renderProductList(list) {
   element.innerHTML = htmlStrings.join("");
 }
 
+// main.js
+
 function productCardTemplate(product) {
+
+  let discountBadge = "";
+  let priceDisplay = `<p class="product-card__price">$${product.FinalPrice}</p>`;
+
+  if (product.SuggestedRetailPrice > product.FinalPrice) {
+    const savings = Math.round(product.SuggestedRetailPrice - product.FinalPrice);
+    discountBadge = `<span class="discount-flag">Save $${savings}</span>`;
+    
+    priceDisplay = `
+      <p class="product-card__price">
+        <span class="original-price">$${product.SuggestedRetailPrice}</span>
+        $${product.FinalPrice}
+        ${discountBadge}
+      </p>`;
+  }
+
   return `<li class="product-card">
     <a href="product_pages/index.html?product=${product.Id}">
       <img src="${product.Image}" alt="Image of ${product.Name}">
       <h3 class="card__brand">${product.Brand.Name}</h3>
       <h2 class="card__name">${product.Name}</h2>
-      <p class="product-card__price">$${product.FinalPrice}</p>
+      ${priceDisplay}
     </a>
   </li>`;
 }
