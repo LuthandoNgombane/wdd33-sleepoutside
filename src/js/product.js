@@ -32,10 +32,27 @@ function renderProductDetails(product) {
 }
 
 function addProductToCart(product) {
+
   let cartItems = getLocalStorage("so-cart") || [];
-  if (!Array.isArray(cartItems)) cartItems = []; 
-  cartItems.push(product);
+
+
+  if (!Array.isArray(cartItems)) {
+    cartItems = [];
+  }
+
+  const existingItem = cartItems.find((item) => item.Id === product.Id);
+
+  if (existingItem) {
+
+    existingItem.Quantity = (existingItem.Quantity || 1) + 1;
+  }
+  else {
+
+    product.Quantity = 1;
+    cartItems.push(product);
+  }
+
+
   setLocalStorage("so-cart", cartItems);
 }
-
 init();
